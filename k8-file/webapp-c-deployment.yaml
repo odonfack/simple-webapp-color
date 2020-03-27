@@ -1,24 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: webapp-color
   name: webapp-color
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: webapp-color
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: webapp-color
     spec:
       containers:
       - image: odonfack/debian:simple-webapp-color
         name: webapp-color
-        resources: {}
-status: {}
+        volumeMounts:
+          - name: example-configmap-volume
+            mountPath: /etc/config
+      volumes:
+       - name: example-configmap-volume
+         configMap:
+           name: app-config
